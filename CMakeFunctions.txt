@@ -1,0 +1,28 @@
+function(GenerateTranslations)
+    set(current_path ${CMAKE_CURRENT_SOURCE_DIR})
+    set(translation_dir ${current_path}/resources/translations/)
+    #set(output_dir )
+    set(ts_files)
+
+    # Creates TS dir
+    # The ts files are the translations files that will be edited to receive the translations and will be 'compiled' resulting in .qm files
+    if (NOT EXISTS ${translation_dir})
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${translation_dir}
+        )
+    endif(NOT EXISTS ${translation_dir})
+
+
+    # Generating ts files via QT lupdate
+    foreach (language ${translation_languages})
+        LIST(APPEND ts_files ${translation_dir}translation_${language}.ts)
+    endforeach(language ${translation_languages})
+
+    execute_process(
+        COMMAND ${QtLupdateLocation} ${current_path} -ts ${ts_files}
+    )
+
+    ## Installation
+    # INSTALL(FILES ${qm_files} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+endfunction()

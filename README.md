@@ -1,0 +1,1 @@
+# cmake_qt_translation_example
