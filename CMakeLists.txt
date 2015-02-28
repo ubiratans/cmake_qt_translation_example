@@ -70,8 +70,9 @@ endif()
 # Set C++ compile and specify to use c++11
 if(UNIX AND NOT APPLE)
     set(CMAKE_CXX_COMPILER "g++")
-    set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 endif()
+
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Find QT5 package
 find_package(Qt5 REQUIRED COMPONENTS Widgets Core LinguistTools)
@@ -115,6 +116,7 @@ foreach (language ${translation_languages})
 
     add_custom_command(
                         OUTPUT "translation_package_${language}.qm"
+                        COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${language_path}
                         COMMAND ${QtLreleaseLocation} ARGS ${language_ts_files} -qm ${language_path}/${qm_file}
                        )
 
